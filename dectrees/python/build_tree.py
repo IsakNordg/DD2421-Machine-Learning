@@ -7,7 +7,6 @@ from matplotlib import pyplot as plt
 t=d.buildTree(m.monk1, m.attributes)
 print("MONK1:", d.check(t, m.monk1))
 #qt.drawTree(t)
-fig = plt.figure(t)
 
 t=d.buildTree(m.monk2, m.attributes)
 print("MONK2:", d.check(t, m.monk2))
