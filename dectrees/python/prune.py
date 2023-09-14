@@ -47,14 +47,29 @@ def getPrunedTree(best, monk1val):
 def main():
     fractions = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
     error_list = []
+    x_list = []
+    y_list = []
 
     for f in fractions:
         x = getPruneImprovement(f)
         error_list.append(1-sum(x[1])/len(x[1]))
+        for i in x[1]:
+            x_list.append(f)
+            y_list.append(1-i)
+
     print("before pruning: ", sum(x[0])/len(x[0]))
     print("after pruning: ", sum(x[1])/len(x[1]))
-    print(error_list)
+    print(len(error_list))
+    print(len(x_list))
+
+    """Need to add titles and better headers for both plots"""
     pyplot.plot(fractions, error_list)
+    pyplot.xlabel("fraction")
+    pyplot.ylabel("error")
+    pyplot.show()
+
+    #create scatter plot
+    pyplot.scatter(x_list, y_list)
     pyplot.xlabel("fraction")
     pyplot.ylabel("error")
     pyplot.show()
