@@ -1,7 +1,7 @@
 import random
 import dtree
 import monkdata as m
-import matplotlib
+from matplotlib import pyplot 
 
 def partition(data, fraction):
     ldata = list(data)
@@ -54,8 +54,10 @@ def main():
     print("before pruning: ", sum(x[0])/len(x[0]))
     print("after pruning: ", sum(x[1])/len(x[1]))
     print(error_list)
-
-    m
+    pyplot.plot(fractions, error_list)
+    pyplot.xlabel("fraction")
+    pyplot.ylabel("error")
+    pyplot.show()
 
 if __name__ == "__main__":
     main()
