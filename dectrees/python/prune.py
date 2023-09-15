@@ -13,7 +13,7 @@ def partition(data, fraction):
 def getPruneImprovement(fraction):
     prePruned = []
     postPruned = []
-    for i in range(1000):
+    for i in range(100):
         performances = getPerformancesValues(fraction)
         prePruned.append(performances[0])
         postPruned.append(performances[1])
@@ -63,15 +63,16 @@ def main():
     print(len(x_list))
 
     """Need to add titles and better headers for both plots"""
-    pyplot.plot(fractions, error_list)
-    pyplot.xlabel("fraction")
-    pyplot.ylabel("error")
-    pyplot.show()
-
+    pyplot.plot(fractions, error_list, color="r", label="Mean")
+    #pyplot.xlabel("fraction")
+    #pyplot.ylabel("error")
+    #pyplot.show()
+    
     #create scatter plot
-    pyplot.scatter(x_list, y_list)
+    pyplot.scatter(x_list, y_list, label="Distribution")
     pyplot.xlabel("fraction")
     pyplot.ylabel("error")
+    pyplot.legend()
     pyplot.show()
 
 if __name__ == "__main__":
