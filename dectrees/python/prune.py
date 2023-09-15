@@ -73,6 +73,7 @@ def main():
     pyplot.xlabel("fraction")
     pyplot.ylabel("error")
     pyplot.legend()
+    pyplot.title("MONK 1")
     pyplot.show()
 
 if __name__ == "__main__":
