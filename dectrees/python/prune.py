@@ -13,7 +13,7 @@ def partition(data, fraction):
 def getPruneImprovement(fraction):
     prePruned = []
     postPruned = []
-    for i in range(100):
+    for i in range(1000):
         performances = getPerformancesValues(fraction)
         prePruned.append(performances[0])
         postPruned.append(performances[1])
