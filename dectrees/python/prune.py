@@ -69,7 +69,7 @@ def main():
     #pyplot.show()
     
     #create scatter plot
-    pyplot.scatter(x_list, y_list, label="Distribution")
+    pyplot.scatter(x_list, y_list, label="Error for each datapoint")
     pyplot.xlabel("fraction")
     pyplot.ylabel("error")
     pyplot.legend()
