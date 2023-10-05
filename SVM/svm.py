@@ -35,7 +35,7 @@ def RBFKernel(x, y, sigma=5.0):
     return np.exp(-np.linalg.norm(x-y)**2 / (2 * (sigma ** 2)))
 
 ########## PRE-COMPUTED MATRIX P ##########
-def precomputedMatrixP(x, t):
+def precomputedMatrixP():
     P = np.zeros((N, N))
     for i in range(N):
         for j in range(N):
@@ -53,16 +53,20 @@ def zerofun(alpha):
 
 
 ########## EXTRACT NON-ZERO ALPHA-VALUES ##########
-def extractNonZero(alpha, x, t):
+def extractNonZero(alpha):
     for i in range(len(alpha)):
         if abs(alpha[i]) > 10**(-5):
             xNew.append(x[i])
             tNew.append(t[i])
             alphaNew.append(alpha[i])
 
+    print(x)
+    print(xNew)
+
 ########## CALCULATE B ##########
 def b():
     b = 0
+    print(xNew)
     for i in range(len(alphaNew)):
         #print(xNew[:][i])
         b += alphaNew[i]*tNew[i]*kernel(xNew[0], xNew[i]) 
@@ -76,10 +80,11 @@ def indicator(x, y):
     for i in range(len(alphaNew)):
         val += alphaNew[i]*tNew[i]*kernel(np.array([x, y]), xNew[i])
     val -= b
-    if val > 0:
+    return val
+    """if val > 0:
         return 1
     else:
-        return -1
+        return -1"""
 
 np.random.seed(100)
 ########## DATA ##########
@@ -104,7 +109,7 @@ targets = targets[permute]
 
 t = targets
 x = inputs
-P = precomputedMatrixP(x, t)
+P = precomputedMatrixP()
 
 ret = minimize(objective, np.zeros(N), bounds=[(0, C) for i in range(N)], constraints={'type':'eq', 'fun':zerofun})
 alpha = ret['x']
@@ -114,7 +119,7 @@ xNew = []
 tNew = []
 alphaNew = []
 
-extractNonZero(alpha, x, t)
+extractNonZero(alpha)
 
 b = b()
 
