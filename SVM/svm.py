@@ -23,7 +23,7 @@ XC:
 
 ########## KERNELS ##########
 def kernel(x, y):
-    return polynomialKernel(x, y)
+    return RBFKernel(x, y)
 
 def linearKernel(x, y):
     return np.dot(x, y)
@@ -60,13 +60,9 @@ def extractNonZero(alpha):
             tNew.append(t[i])
             alphaNew.append(alpha[i])
 
-    print(x)
-    print(xNew)
-
 ########## CALCULATE B ##########
 def b():
     b = 0
-    print(xNew)
     for i in range(len(alphaNew)):
         #print(xNew[:][i])
         b += alphaNew[i]*tNew[i]*kernel(xNew[0], xNew[i]) 
@@ -89,10 +85,11 @@ def indicator(x, y):
 np.random.seed(100)
 ########## DATA ##########
 classA = np.concatenate((
-        np.random.randn(10, 2) * 0.2 + [1.5, 0.5],
-        np.random.randn(10, 2) * 0.2 + [-1.5, 0.5]
+        np.random.randn(15, 2) * 1 + [1.5, 0.5],
+        np.random.randn(15, 2) * 1 + [-1.5, 0.5],
+        #np.random.randn(1, 2) * 2 + [1.5, -0.5]
     ))
-classB = np.random.randn(20, 2) * 0.2 + [0.0, -0.5]
+classB = np.random.randn(25, 2) * 1 + [0.0, -0.5]
 
 inputs = np.concatenate((classA, classB))
 targets = np.concatenate((
@@ -100,7 +97,7 @@ targets = np.concatenate((
         -np.ones(classB.shape[0])
     ))
 
-C = 10
+C = 1
 N = inputs.shape[0]  # Number of rows (samples)
 permute = list(range(N))
 np.random.shuffle(permute)
