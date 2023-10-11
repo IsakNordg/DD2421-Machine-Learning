@@ -75,21 +75,17 @@ def mlParams(X, labels, W=None):
     
     # Iterate over both index and value
     for jdx,c in enumerate(classes):
-        idx = labels==c # Returns a true or false with the length of y
-        # Or more compactly extract the indices for which y==class is true,
-        # analogous to MATLAB’s find
         idx = np.where(labels==c)[0]
-        xlc = X[idx,:] # Get the x for the class labels. Vectors are rows.
+        xlc = X[idx,:] #   Get the x for the class labels. Vectors are rows.
+        
         """MU"""
-        for d in range(Ndims):
-            list = [i[d] for i in xlc]
-            mu[jdx][d] = sum(list)/len(list)
+        mu[jdx] = np.sum(xlc * W[idx], axis=0) / np.sum(W[idx])
         
         """SIGMA"""
-        for d in range(Ndims):
-            list = [i[d] for i in xlc]
-            sigma[jdx][d][d] = sum((list - mu[jdx][d])**2)/len(list)
+        sigma_vec = np.sum((xlc - mu[jdx])**2 * W[idx], axis=0) / np.sum(W[idx])
+        sigma[jdx] = np.diag(sigma_vec)
     # ==========================
+    
     return mu, sigma
 
 # in:      X - N x d matrix of M data points
