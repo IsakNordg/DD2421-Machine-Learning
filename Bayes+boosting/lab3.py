@@ -81,10 +81,15 @@ def mlParams(X, labels, W=None):
         # analogous to MATLAB’s find
         idx = np.where(labels==c)[0]
         xlc = X[idx,:] # Get the x for the class labels. Vectors are rows.
+        """MU"""
         for d in range(Ndims):
             list = [i[d] for i in xlc]
             mu[jdx][d] = sum(list)/len(list)
         
+        """SIGMA"""
+        for d in range(Ndims):
+            list = [i[d] for i in xlc]
+            sigma[jdx][d][d] = sum((list - mu[jdx][d])**2)/len(list)
 
     return mu, sigma
 
@@ -134,7 +139,7 @@ class BayesClassifier(object):
 # Call `genBlobs` and `plotGaussian` to verify your estimates.
 
 
-X, labels = genBlobs(10, centers=5)
+X, labels = genBlobs(centers=5)
 mu, sigma = mlParams(X,labels)
 plotGaussian(X,labels,mu,sigma)
 
