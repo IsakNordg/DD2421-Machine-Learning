@@ -82,7 +82,7 @@ def mlParams(X, labels, W=None):
         # analogous to MATLAB’s find
         idx = np.where(labels==c)[0]
         xlc = X[idx,:] # Get the x for the class labels. Vectors are rows.
-                  
+                
 
 
 
