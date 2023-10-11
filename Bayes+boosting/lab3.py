@@ -23,6 +23,7 @@ from labfuns import *
 import random
 
 
+
 # ## Bayes classifier functions to implement
 # 
 # The lab descriptions state what each function should do.
@@ -75,14 +76,17 @@ def mlParams(X, labels, W=None):
     classes = np.unique(labels) # Get the unique examples
     # Iterate over both index and value
     for jdx,c in enumerate(classes):
+        print(jdx)
         idx = labels==c # Returns a true or false with the length of y
         # Or more compactly extract the indices for which y==class is true,
         # analogous to MATLAB’s find
         idx = np.where(labels==c)[0]
         xlc = X[idx,:] # Get the x for the class labels. Vectors are rows.
+                  
 
 
-    """return mu, sigma"""
+
+    return mu, sigma
 
 # in:      X - N x d matrix of M data points
 #      prior - C x 1 matrix of class priors
@@ -130,7 +134,9 @@ class BayesClassifier(object):
 # Call `genBlobs` and `plotGaussian` to verify your estimates.
 
 
-X, labels = genBlobs(centers=5)
+X, labels = genBlobs(10, centers=5)
+print(X)
+print(labels)
 mu, sigma = mlParams(X,labels)
 plotGaussian(X,labels,mu,sigma)
 
