@@ -68,10 +68,21 @@ def mlParams(X, labels, W=None):
 
     # TODO: fill in the code to compute mu and sigma!
     # ==========================
-    
+    """mu (mean vector) = summan över alla i datapunkter givet att klassen för punkten i är K?/
+    x är det av radvectotrer och lsbrls är är klasslabels för varje datapunkt"""
     # ==========================
+    #Kod för en klass men vi vill göra Cxd array
+    classes = np.unique(labels) # Get the unique examples
+    # Iterate over both index and value
+    for jdx,c in enumerate(classes):
+        idx = labels==c # Returns a true or false with the length of y
+        # Or more compactly extract the indices for which y==class is true,
+        # analogous to MATLAB’s find
+        idx = np.where(labels==c)[0]
+        xlc = X[idx,:] # Get the x for the class labels. Vectors are rows.
 
-    return mu, sigma
+
+    """return mu, sigma"""
 
 # in:      X - N x d matrix of M data points
 #      prior - C x 1 matrix of class priors
