@@ -69,22 +69,22 @@ def mlParams(X, labels, W=None):
 
     # TODO: fill in the code to compute mu and sigma!
     # ==========================
-    """mu (mean vector) = summan över alla i datapunkter givet att klassen för punkten i är K?/
-    x är det av radvectotrer och lsbrls är är klasslabels för varje datapunkt"""
+
     # ==========================
     #Kod för en klass men vi vill göra Cxd array
     classes = np.unique(labels) # Get the unique examples
+    
     # Iterate over both index and value
     for jdx,c in enumerate(classes):
-        print(jdx)
         idx = labels==c # Returns a true or false with the length of y
         # Or more compactly extract the indices for which y==class is true,
         # analogous to MATLAB’s find
         idx = np.where(labels==c)[0]
         xlc = X[idx,:] # Get the x for the class labels. Vectors are rows.
-                
-
-
+        for d in range(Ndims):
+            list = [i[d] for i in xlc]
+            mu[jdx][d] = sum(list)/len(list)
+        
 
     return mu, sigma
 
@@ -135,8 +135,6 @@ class BayesClassifier(object):
 
 
 X, labels = genBlobs(10, centers=5)
-print(X)
-print(labels)
 mu, sigma = mlParams(X,labels)
 plotGaussian(X,labels,mu,sigma)
 
