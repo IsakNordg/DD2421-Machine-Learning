@@ -46,6 +46,7 @@ def computePrior(labels, W=None):
     # TODO: compute the values of prior for each class!
     # ==========================
     for jdx,c in enumerate(classes):
+        idx = labels==c
         idx = np.where(labels==c)[0]
         prior[jdx] = len(idx)/Npts
     # ==========================
@@ -71,6 +72,9 @@ def mlParams(X, labels, W=None):
 
     # TODO: fill in the code to compute mu and sigma!
     # ==========================
+
+    # ==========================
+    #Kod för en klass men vi vill göra Cxd array
     classes = np.unique(labels) # Get the unique examples
     
     # Iterate over both index and value
@@ -89,7 +93,7 @@ def mlParams(X, labels, W=None):
         for d in range(Ndims):
             list = [i[d] for i in xlc]
             sigma[jdx][d][d] = sum((list - mu[jdx][d])**2)/len(list)
-    # ==========================
+
     return mu, sigma
 
 # in:      X - N x d matrix of M data points
@@ -105,14 +109,9 @@ def classifyBayes(X, prior, mu, sigma):
 
     # TODO: fill in the code to compute the log posterior logProb!
     # ==========================
-    for i in range(Npts):  # Loop over data points
+    for datapoint in X:
         for c in range(Nclasses):
-            diff = X[i] - mu[c]
-            logProb[c, i] = (
-                np.log(prior[c])
-                - 0.5 * np.log(np.linalg.det(sigma[c]))
-                - 0.5 * np.dot(np.dot(diff, np.linalg.inv(sigma[c])), diff)
-            )
+            logProb[c] = np.log(prior[c]) - (1/2)*np.log(np.linalg.det(sigma[c])) - (1/2)*np.dot(np.dot((datapoint-mu[c]),sigma[c]),(datapoint-mu[c]).T)
     # ==========================
     
     # one possible way of finding max a-posteriori once
@@ -145,20 +144,21 @@ class BayesClassifier(object):
 # Call `genBlobs` and `plotGaussian` to verify your estimates.
 
 
-X, labels = genBlobs(1000, centers=5)
+X, labels = genBlobs(10, centers=5)
 mu, sigma = mlParams(X,labels)
 #plotGaussian(X,labels,mu,sigma)
 prior = computePrior(labels)
 
-#X_test, labels_test = genBlobs(5, centers=5)
-#classifyBayes(X_test, prior, mu, sigma)
-#plotGaussian(X_test, labels_test, mu, sigma)
-
+"""
+X_test, labels = genBlobs(100, centers=5)
+classifyBayes(X_test, prior, mu, sigma)
+plotGaussian(X_test,labels,mu,sigma)
+"""
 
 # Call the `testClassifier` and `plotBoundary` functions for this part.
 
 
-#testClassifier(BayesClassifier(), dataset='iris', split=0.7)
+testClassifier(BayesClassifier(), dataset='iris', split=0.7)
 #testClassifier(BayesClassifier(), dataset='vowel', split=0.7)
 
 
