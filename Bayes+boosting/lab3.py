@@ -196,6 +196,12 @@ def trainBoost(base_classifier, X, labels, T=10):
         for i in range(Npts):
             if vote[i] != labels[i]:
                 error += wCur[i]
+        #print("error:", error, "wCur:", wCur)
+        
+        if error < 1e-10:
+            error = 1e-10
+        if error > 1 - 1e-10:
+            error = 1 - 1e-10
 
         alpha = 0.5 * (np.log(1 - error) - np.log(error))
 
