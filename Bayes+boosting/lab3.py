@@ -197,11 +197,7 @@ def trainBoost(base_classifier, X, labels, T=10):
             if vote[i] != labels[i]:
                 error += wCur[i]
 
-        # Avoid division by zero or negative values
-        if error == 0:
-            alpha = np.inf
-        else:
-            alpha = 0.5 * (np.log(1 - error + 1e-10) - np.log(error + 1e-10))
+        alpha = 0.5 * (np.log(1 - error) - np.log(error))
 
         alphas.append(alpha) # you will need to append the new alpha
 
