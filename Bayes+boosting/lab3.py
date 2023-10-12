@@ -47,9 +47,9 @@ def computePrior(labels, W=None):
     # ==========================
     for jdx,c in enumerate(classes):
         idx = np.where(labels==c)[0]
-        prior[jdx] = len(idx)/Npts
+        prior[jdx] = np.sum(W[idx]) / np.sum(W)
     # ==========================
-    
+
     return prior
 
 # NOTE: you do not need to handle the W argument for this part!
@@ -141,10 +141,10 @@ class BayesClassifier(object):
 # Call `genBlobs` and `plotGaussian` to verify your estimates.
 
 
-X, labels = genBlobs(1000, centers=5)
-mu, sigma = mlParams(X,labels)
+X, labels = genBlobs(20, centers=5)
+mu, sigma = mlParams(X,labels, W=None)
 #plotGaussian(X,labels,mu,sigma)
-prior = computePrior(labels)
+prior = computePrior(labels, W=None)
 
 #X_test, labels_test = genBlobs(5, centers=5)
 #classifyBayes(X_test, prior, mu, sigma)
@@ -158,7 +158,7 @@ prior = computePrior(labels)
 #testClassifier(BayesClassifier(), dataset='vowel', split=0.7)
 
 
-plotBoundary(BayesClassifier(), dataset='vowel',split=0.7)
+#plotBoundary(BayesClassifier(), dataset='vowel',split=0.7)
 
 
 # ## Boosting functions to implement
