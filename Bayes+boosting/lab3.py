@@ -192,10 +192,17 @@ def trainBoost(base_classifier, X, labels, T=10):
         # TODO: Fill in the rest, construct the alphas etc.
         # ==========================
         error = 0
+        #maybe not optimal hehhehe
         for i in range(Npts):
             if vote[i] != labels[i]:
                 error += wCur[i]
-        alpha = 0.5 * (np.log(1 - error) - np.log(error))
+
+        # Avoid division by zero or negative values
+        if error == 0:
+            alpha = np.inf
+        else:
+            alpha = 0.5 * (np.log(1 - error + 1e-10) - np.log(error + 1e-10))
+
         alphas.append(alpha) # you will need to append the new alpha
 
         # Update weight
@@ -206,7 +213,6 @@ def trainBoost(base_classifier, X, labels, T=10):
                 wCur[i] = wCur[i] * np.exp(alpha)
         wCur = wCur / np.sum(wCur)
 
-        
         # ==========================
     
     return classifiers, alphas
@@ -229,7 +235,12 @@ def classifyBoost(X, classifiers, alphas, Nclasses):
         # TODO: implement classificiation when we have trained several classifiers!
         # here we can do it by filling in the votes vector with weighted votes
         # ==========================
-        
+        for i in range(Ncomps):
+            guess = classifiers[i].classify(X)
+            for j in range(Npts):
+                votes[j, guess[j]] += alphas[i]
+
+
         # ==========================
 
         # one way to compute yPred after accumulating the votes
@@ -262,11 +273,11 @@ class BoostClassifier(object):
 # Call the `testClassifier` and `plotBoundary` functions for this part.
 
 
-testClassifier(BoostClassifier(BayesClassifier(), T=3), dataset='iris',split=0.7)
+testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='iris',split=0.7)
 #testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='vowel',split=0.7)
 
 
-#plotBoundary(BoostClassifier(BayesClassifier()), dataset='iris',split=0.7)
+plotBoundary(BoostClassifier(BayesClassifier()), dataset='iris',split=0.7)
 
 
 # Now repeat the steps with a decision tree classifier.
