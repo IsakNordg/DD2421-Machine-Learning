@@ -142,9 +142,9 @@ class BayesClassifier(object):
 
 
 X, labels = genBlobs(20, centers=5)
-mu, sigma = mlParams(X,labels, W=None)
+#mu, sigma = mlParams(X,labels, W=None)
 #plotGaussian(X,labels,mu,sigma)
-prior = computePrior(labels, W=None)
+#prior = computePrior(labels, W=None)
 
 #X_test, labels_test = genBlobs(5, centers=5)
 #classifyBayes(X_test, prior, mu, sigma)
@@ -191,10 +191,24 @@ def trainBoost(base_classifier, X, labels, T=10):
 
         # TODO: Fill in the rest, construct the alphas etc.
         # ==========================
+        error = 0
+        for i in range(Npts):
+            if vote[i] != labels[i]:
+                error += wCur[i]
+        alpha = 0.5 * (np.log(1 - error) - np.log(error))
+        alphas.append(alpha) # you will need to append the new alpha
+
+        # Update weight
+        for i in range(Npts):
+            if vote[i] == labels[i]:
+                wCur[i] = wCur[i] * np.exp(-alpha)
+            else:
+                wCur[i] = wCur[i] * np.exp(alpha)
+        wCur = wCur / np.sum(wCur)
+
         
-        # alphas.append(alpha) # you will need to append the new alpha
         # ==========================
-        
+    
     return classifiers, alphas
 
 # in:       X - N x d matrix of N data points
@@ -248,12 +262,8 @@ class BoostClassifier(object):
 # Call the `testClassifier` and `plotBoundary` functions for this part.
 
 
-#testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='iris',split=0.7)
-
-
-
+testClassifier(BoostClassifier(BayesClassifier(), T=3), dataset='iris',split=0.7)
 #testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='vowel',split=0.7)
-
 
 
 #plotBoundary(BoostClassifier(BayesClassifier()), dataset='iris',split=0.7)
