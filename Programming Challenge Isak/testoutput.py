@@ -2,7 +2,7 @@
 with open("output.txt", "r") as f:
     lines = f.readlines()
 
-with open("output1.txt", "r") as f:
+with open(".txt", "r") as f:
     lines1 = f.readlines()
 
 for i in range(len(lines)):

@@ -8,3 +8,6 @@ To run the program, follow these instructions:
 - Go back to the Workspace and enter "classify" in the Command Window
 
 Now, the model classification of the new data can be found in "output.txt"
+
+
+The data cleaning was done manually in Excel
